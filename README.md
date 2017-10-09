@@ -15,7 +15,7 @@ In addition, acts_as_tenant:
 * sets up a helper method containing the current tenant
 
 1. Installation
-------------
+===============
 acts_as_tenant will only work on Rails 3.1 and up. This is due to changes made to the handling of `default_scope`, an essential pillar of the gem.
 
 To use it, add it to your Gemfile:
