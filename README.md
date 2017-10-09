@@ -14,7 +14,7 @@ In addition, acts_as_tenant:
 * adds a method to validate uniqueness to a tenant, `validates_uniqueness_to_tenant`
 * sets up a helper method containing the current tenant
 
-Installation
+1. Installation
 ------------
 acts_as_tenant will only work on Rails 3.1 and up. This is due to changes made to the handling of `default_scope`, an essential pillar of the gem.
 
@@ -24,14 +24,14 @@ To use it, add it to your Gemfile:
 gem 'acts_as_tenant'
 ```
 
-Getting started
+2. Getting started
 ===============
 There are two steps in adding multi-tenancy to your app with acts_as_tenant:
 
 1. setting the current tenant and
 2. scoping your models.
 
-Setting the current tenant
+2.1 Setting the current tenant
 --------------------------
 There are three ways to set the current tenant:
 
@@ -94,7 +94,7 @@ This is useful in shared routes such as admin panels or internal dashboards when
 
 If you want to require the tenant to be set at all times, you can configure acts_as_tenant to raise an error when a query is made without a tenant available. See below under configuarion options.
 
-Scoping your models
+2.2 Scoping your models
 -------------------
 
 ```ruby
@@ -137,7 +137,7 @@ Project.tasks.all #  => all tasks with account_id => 3
 
 Acts_as_tenant uses Rails' `default_scope` method to scope models. Rails 3.1 changed the way `default_scope` works in a good way. A user defined `default_scope` should integrate seamlessly with the one added by `acts_as_tenant`.
 
-### Validating attribute uniqueness ###
+### 2.2.1 Validating attribute uniqueness ###
 
 If you need to validate for uniqueness, chances are that you want to scope this validation to a tenant. You can do so by using:
 
@@ -147,7 +147,7 @@ validates_uniqueness_to_tenant :name, :email
 
 All options available to Rails' own `validates_uniqueness_of` are also available to this method.
 
-### Custom foreign_key ###
+### 2.2.2 Custom foreign_key ###
 
 You can explicitely specifiy a foreign_key for AaT to use should the key differ from the default:
 
@@ -155,7 +155,7 @@ You can explicitely specifiy a foreign_key for AaT to use should the key differ 
 acts_as_tenant(:account, :foreign_key => 'accountID) # by default AaT expects account_id
 ```
 
-Configuration options
+2.3 Configuration options
 ---------------------
 An initializer can be created to control (currently one) option in ActsAsTenant. Defaults
 are shown below with sample overrides following. In `config/initializers/acts_as_tenant.rb`:
@@ -168,7 +168,7 @@ end
 
 * `config.require_tenant` when set to true will raise an ActsAsTenant::NoTenant error whenever a query is made without a tenant set.
 
-Sidekiq support
+2.4 Sidekiq support
 ---------------
 
 ActsAsTenant supports [Sidekiq](http://sidekiq.org/). A background processing library.
