@@ -1,8 +1,6 @@
 Acts As Tenant
 ==============
 
-[![Build Status](https://travis-ci.org/ErwinM/acts_as_tenant.png)](https://travis-ci.org/ErwinM/acts_as_tenant)
-
 **Note**: acts_as_tenant was introduced in this [blog post](http://www.rollcallapp.com/blog/2011/10/03/adding-multi-tenancy-to-your-rails-app-acts-as-tenant).
 
 This gem was born out of our own need for a fail-safe and out-of-the-way manner to add multi-tenancy to our Rails app through a shared database strategy, that integrates (near) seamless with Rails.
@@ -179,44 +177,3 @@ Add the following code to your `config/initializers/acts_as_tenant.rb`:
 ```ruby
 require 'acts_as_tenant/sidekiq'
 ```
-
-Testing
----------------
-
-If you set the `current_tenant` in your tests, make sure to clean up the tenant after each test by calling `ActsAsTenant.current_tenant = nil`. If you are manually setting the `current_tenant` in integration tests, please be aware that the value will not survive across multiple requests, even if they take place within the same test.
-
-If you'd like to set a default tenant that will survive across multiple requests, assign a value to `default_tenant`. You might use a before hook like this:
-
-```ruby
-# Make the default tenant globally available to the tests
-$default_account = Account.create!
-# Specify this account as the current tenant unless overridden
-ActsAsTenant.default_tenant = $default_account
-# Stub out the method setting a tenant in a controller hook
-allow_any_instance_of(ApplicationController).to receive(:set_current_tenant)
-```
-
-This can later be overridden by using any of the standard methods for specifying a different tenant. If you don't want this setting to apply to all of your tests, remember to clear it when you're finished by setting `ActsAsTenant.default_tenant = nil`.
-
-To Do
------
-* ...
-
-Bug reports & suggested improvements
-------------------------------------
-If you have found a bug or want to suggest an improvement, please use our issue tracked at:
-
-[github.com/ErwinM/acts_as_tenant/issues](http://github.com/ErwinM/acts_as_tenant/issues)
-
-If you want to contribute, fork the project, code your improvements and make a pull request on [Github](http://github.com/ErwinM/acts_as_tenant/). When doing so, please don't forget to add tests. If your contribution is fixing a bug it would be perfect if you could also submit a failing test, illustrating the issue.
-
-Author & Credits
-----------------
-acts_as_tenant is written by Erwin Matthijssen.
-Erwin is currently busy developing [Roll Call](http://www.rollcallapp.com/ "Roll Call App").
-
-This gem was inspired by Ryan Sonnek's [Multitenant](https://github.com/wireframe/multitenant) gem and its use of default_scope.
-
-License
--------
-Copyright (c) 2011 Erwin Matthijssen, released under the MIT license
