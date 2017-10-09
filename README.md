@@ -14,8 +14,8 @@ In addition, acts_as_tenant:
 * adds a method to validate uniqueness to a tenant, `validates_uniqueness_to_tenant`
 * sets up a helper method containing the current tenant
 
-1. Installation
-===============
+## 1. Installation
+
 acts_as_tenant will only work on Rails 3.1 and up. This is due to changes made to the handling of `default_scope`, an essential pillar of the gem.
 
 To use it, add it to your Gemfile:
@@ -24,22 +24,20 @@ To use it, add it to your Gemfile:
 gem 'acts_as_tenant'
 ```
 
-2. Getting started
-===============
+## 2. Getting started
 There are two steps in adding multi-tenancy to your app with acts_as_tenant:
 
 1. setting the current tenant and
 2. scoping your models.
 
-2.1 Setting the current tenant
---------------------------
+### 2.1 Setting the current tenant
 There are three ways to set the current tenant:
 
 1. by using the subdomain to lookup the current tenant,
 2. by setting  the current tenant in the controller, and
 3. by setting the current tenant for a block.
 
-### Use the subdomain to lookup the current tenant ###
+#### 2.1.1 Use the subdomain to lookup the current tenant ###
 
 ```ruby
 class ApplicationController < ActionController::Base
@@ -51,7 +49,7 @@ This tells acts_as_tenant to use the current subdomain to identify the current t
 
 Alternatively, you could locate the tenant using the method `set_current_tenant_by_subdomain_or_domain( :account, :subdomain,  :domain )` which will try to match a record first by subdomain. in case it fails, by domain.
 
-### Setting the current tenant in a controller, manually ###
+#### 2.1.2 Setting the current tenant in a controller, manually ###
 
 ```ruby
 class ApplicationController < ActionController::Base
@@ -68,7 +66,7 @@ end
 Setting the `current_tenant` yourself, requires you to declare `set_current_tenant_through_filter` at the top of your application_controller to tell acts_as_tenant that you are going to use a before_action to setup the current tenant. Next you should actually setup that before_action to fetch the current tenant and pass it to `acts_as_tenant` by using `set_current_tenant(current_tenant)` in the before_action.
 
 
-### Setting the current tenant for a block ###
+#### 2.1.3 Setting the current tenant for a block ###
 
 ```ruby
 ActsAsTenant.with_tenant(current_account) do
@@ -81,7 +79,7 @@ any code in this block will be scoped to the current tenant. All methods that se
 
 **Note:** If the current tenant is not set by one of these methods, Acts_as_tenant will be unable to apply the proper scope to your models. So make sure you use one of the two methods to tell acts_as_tenant about the current tenant.
 
-### Disabling tenant checking for a block ###
+#### 2.1.4 Disabling tenant checking for a block ###
 
 ```ruby
 ActsAsTenant.without_tenant do
@@ -90,12 +88,11 @@ end
 ```
 This is useful in shared routes such as admin panels or internal dashboards when `require_tenant` option is enabled throughout the app.
 
-### Require tenant to be set always ###
+#### 2.1.5 Require tenant to be set always ###
 
 If you want to require the tenant to be set at all times, you can configure acts_as_tenant to raise an error when a query is made without a tenant available. See below under configuarion options.
 
-2.2 Scoping your models
--------------------
+## 2.2 Scoping your models
 
 ```ruby
 class AddAccountToUsers < ActiveRecord::Migration
@@ -155,8 +152,8 @@ You can explicitely specifiy a foreign_key for AaT to use should the key differ 
 acts_as_tenant(:account, :foreign_key => 'accountID) # by default AaT expects account_id
 ```
 
-2.3 Configuration options
----------------------
+## 2.3 Configuration options
+
 An initializer can be created to control (currently one) option in ActsAsTenant. Defaults
 are shown below with sample overrides following. In `config/initializers/acts_as_tenant.rb`:
 
@@ -168,8 +165,7 @@ end
 
 * `config.require_tenant` when set to true will raise an ActsAsTenant::NoTenant error whenever a query is made without a tenant set.
 
-2.4 Sidekiq support
----------------
+## 2.4 Sidekiq support
 
 ActsAsTenant supports [Sidekiq](http://sidekiq.org/). A background processing library.
 Add the following code to your `config/initializers/acts_as_tenant.rb`:
